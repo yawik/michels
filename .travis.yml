@@ -26,7 +26,7 @@ before_install:
 - pecl channel-update pecl.php.net
 - curl -LO https://deployer.org/deployer.phar
 - chmod +x deployer.phar
-- ssh yawik@aviation.yawik.org ls -la
+- ssh yawik@michels.yawik.org ls -la
 install:
 - pecl install -f ${PECLMONGO}
 - export HASH=de1d724299780d927cb9ed14268449ac8a28204b;
