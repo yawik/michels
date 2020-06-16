@@ -4,7 +4,7 @@ Michels
 Skin Michels
 
 Build status:
-[![Build Status](https://travis-ci.org/cbleek/Michels.svg?branch=master)](https://travis-ci.org/cbleek/michels)
+[![Build Status](https://travis-ci.org/cbleek/Michels.svg?branch=master)](https://travis-ci.org/yawik/michels)
 [![Latest Stable Version](https://poser.pugx.org/cbleek/michels/v/stable)](https://packagist.org/packages/yawik/michels)
 [![Total Downloads](https://poser.pugx.org/cbleek/michels/downloads)](https://packagist.org/packages/yawik/michels)
 
