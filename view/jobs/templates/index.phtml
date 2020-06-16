@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <?=$this->jsonLd($this->job)?>
+    <title><?=strip_tags($this->headTitle)?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta property="og:url" content="<?= $this->uriJob;?>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<?=strip_tags($this->headTitle); ?> - <?=$this->organizationName;?>" />
+    <link rel="stylesheet" href="<?=$this->basePath("modules/Michels/templates/job.css")?>" type="text/css">
+    <style>
+        form > div:hover {
+            background-color: #eee;
+            -webkit-box-shadow: 0px 0px 9px 3px rgba(0,0,0,0.55);
+            -moz-box-shadow: 0px 0px 9px 3px rgba(0,0,0,0.55);
+            box-shadow: 0px 0px 9px 3px rgba(0,0,0,0.55);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header"><img src="/modules/Michels/templates/Michels-Header.png"></div>
+    <div cltemscope itemtype="http://schema.org/JobPosting">
+        <!--
+          see: http://yawik.readthedocs.io/en/latest/modules/jobs/index.html#job-templates
+        -->
+
+        <p><?=$this->descriptionEditable ?></p>
+        <div class="row">
+            <div class="twelve columns title" itemprop="title">
+                <?php echo $this->title; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="six columns">
+                <div class="panel">
+                    <div class="panel-heading"><h4><?=$this->translate($this->labelRequirements);?></h4></div>
+                    <div class="panel-body" itemprop="responsibilities"><?=$this->requirements;?></div>
+                </div>
+            </div>
+            <div class="six columns">
+                <div class="panel">
+                    <div class="panel-heading"><h4><?=$this->translate($this->labelQualifications);?></h4></div>
+                    <div class="panel-body" itemprop="qualifications"><?=$this->qualifications;?></div>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+            <div class="six columns">
+                <div class="panel">
+                    <div class="panel-heading"><h4><?=$this->translate($this->labelBenefits);?></h4></div>
+                    <div class="panel-body" itemprop="jobBenefits"><?=$this->benefits;?></div>
+                </div>
+            </div>
+            <div class="six columns">
+                <div class="panel">
+                    <div class="panel-heading"><h4>HABEN WIR IHR INTERESSE GEWECKT?</h4></div>
+                    <div class="footer">
+ <div data-ker-id="schlusssatz" data-ker="wysiwyg">
+ <p><strong>Wir freuen uns darauf, Sie kennen&shy;zulernen. Senden Sie Ihre Bewer&shy;bung unter Angabe Ihrer Wunsch&shy;klinik mit Ort und Wunsch&shy;indi&shy;kation, in der Sie arbeiten möchten, vorzugsweise per E-Mail an&nbsp;</strong><a data-role="none" href="https://relaxx.center/bewerben/?pid=137383" rel="noopener noreferrer" target="_blank" mns_rt="Apply"><strong>karriere@michelsgruppe.de</strong></a></p>
+ </div>
+
+ <div itemprop="jobBenefits">
+                        <div class="apply">
+                            <?=$this->jobApplyButtons(
+                            $this->applyData,
+                            [
+                            'sendImmediately' => true,
+                            'oneClickOnly' => false,
+                            'defaultLabel' => 'JETZT ONLINE BEWERBEN',
+                            'oneClickLabel' => null
+                            ]
+                            )?>
+                        </div>
+                    </div>
+<div>
+ <p>Haben Sie weitere Fragen? Wir helfen Ihnen gern jederzeit weiter. Schreiben Sie unserer Personal&shy;abteilung eine E-Mail oder rufen Sie durch.</p>
+ <p>Telefon:
+ <tcxspan tcxhref="030800929401" title="Call 030 - 800 929 401 via 3CX">
+ 030 - 800 929 401
+ </tcxspan> <br>E-Mail: <a data-role="none">karriere@michelsgruppe.de</a></p>
+ <p>Michels Kliniken <br>Unter&shy;nehmens&shy;zentrale <br>Fasanenstraße 5 | 10623 Berlin</p>
+ </div>
+ </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+            </div>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

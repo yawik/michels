@@ -1,0 +1,124 @@
+<?php
+/**
+ * YAWIK
+ *
+ * @filesource
+ * @copyright (c) 2013 - 2016 Cross Solution (http://cross-solution.de)
+ * @license   MIT
+ */
+
+use Jobs\Entity\Location;
+
+$hasFacets = $jobs instanceof \Solr\FacetsProviderInterface;
+?>
+<?=$this->proxy('jobsByMailSubscriptionForm')->render($jobs)?>
+<?php if (count($jobs)):?>
+
+    <?php if ($hasFacets):?>
+        <?php
+        $facets = $jobs->getFacets();
+        $activeFacets = $facets->getActiveValues();
+        ?>
+        <?php $this->headScript()->captureStart()?>
+        $(document).on('click', '.facet-checkbox', function () {
+        var $checkbox = $(this),
+        $form = $('#jobs-list-filter'),
+        name = $checkbox.attr('name');
+        $form.find('input[name="' + name + '"]').remove();
+        if ($checkbox.prop('checked')) {
+        $form.append('<input type="hidden" class="facet-param" name="' + name + '">');
+        }
+        $form.submit();
+        }).on('click', '.facet-active', function () {
+        $('#jobs-list-filter').find('input[name="' + $(this).data('name') + '"]').remove()
+        .end().submit();
+        }).on('click', '.facet-reset', function () {
+        var $form = $('#jobs-list-filter');
+        $('#jobs-list-filter').find('.facet-param').remove()
+        .end().submit();
+        });
+        <?php $this->headScript()->captureEnd() ?>
+        <?php if ($activeFacets):?>
+            <div class="well well-sm">
+                <?=$this->translate('Active filters:')?>
+                <?php foreach ($activeFacets as $facetName => $facetValues):?>
+                    <?php foreach ($facetValues as $facetValue):?>
+                        <button type="button" class="btn btn-default btn-sm facet-active" data-name="<?=$this->escapeHtmlAttr($facetName)?>[<?=$this->escapeHtmlAttr($facetValue)?>]" title="<?=$this->translate('Remove filter')?>"><?=$facetValue?> <span>&times;</span></button>
+                    <?php endforeach;?>
+                <?php endforeach;?>
+                <button type="button" class="btn btn-link facet-reset"><?=$this->translate('Remove all filters')?></button>
+            </div>
+        <?php endif;?>
+        <div class="row">
+        <div class="col-md-3">
+            <?php foreach ($facets as $facetName => $facetValues):?>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?=$this->translate($facets->getTitle($facetName))?></div>
+                    <div class="panel-body">
+                        <?php foreach ($facetValues as $facetValue => $facetValueCount):?>
+                            <div>
+                                <label>
+                                    <input type="checkbox" name="<?=$this->escapeHtmlAttr($facetName)?>[<?=$this->escapeHtmlAttr($facetValue)?>]" class="facet-checkbox"<?php if ($facets->isValueActive($facetName, $facetValue)):?> checked<?php endif;?>>
+                                    <?=$facetValue?> (<?=$facetValueCount?>)
+                                </label>
+                            </div>
+                        <?php endforeach;?>
+                    </div>
+                </div>
+            <?php endforeach;?>
+        </div>
+        <div class="col-md-9">
+    <?php endif;?>
+
+<table class="pagination-content table table-striped table-bordered table-hover" id="jobs-list">
+    <thead>
+        <tr>
+            <th><?=$this->translate('Title of the job')?> / <?=$this->translate('Companyname')?></th>
+            <th><?=$this->translate('Location')?> / <?=$this->translate('Date of receipt')?></th>
+            <th><?=$this->translate('Apply')?></th>
+        </tr>
+    </thead>
+<tbody>
+<?php
+
+foreach ($jobs as $job): /* @var \Jobs\Entity\Job $job */
+
+    $org = $job->getOrganization();
+    ?>
+<tr>
+    <td>
+        <?php if ($org && $org->getImage() &&  $org->getOrganizationName()): ?>
+            <div class="yk-logo-list">
+                    <img class="yk-logo-sm" src="<?=$this->basePath($this->organizationImageCache->getUri($org->getImage(true))) ?>">
+            </div>
+        <?php endif ?>
+        <?php $href = $job->getLink() ? $job->getLink() : $this->url('lang/jobs/view', array(), array('query' => array('id' => $job->getId())), true); ?>
+        <a href="<?=$href ?>" target="_blank"><?=strip_tags($job->getTitle())?></a>
+        <br/><?php
+            if ($org && $org->getOrganizationName() && $org->getOrganizationName()->getName()) {
+                echo $org->getOrganizationName()->getName();
+            }
+        ?>
+    </td>
+    <td>
+        <div><?=$this->formatLocation($job->getLocations(), null, ' | ')?></div>
+        <small>
+            <?php
+            if ($job->getDatePublishStart()): echo $this->dateFormat($job->getDatePublishStart(), 'short', 'none');
+            elseif ($job->getDateCreated()): echo $this->dateFormat($job->getDateCreated(), 'short', 'none');
+            endif?>
+        </small>
+         <?php $typeOfContract = $job->getTemplateValues()->get('types')?:'fulltime' ?>
+                            <span class="yk-contract yk-<?=$typeOfContract?>">
+                                <?= $typeOfContract; ?>
+                            </span>
+    </td>
+    <td>
+        <?=$this->applyUrl($job);?>
+     </td>
+</tr>
+<?php endforeach?>
+</tbody>
+</table>
+<?php echo $this->paginationControl($jobs, 'Sliding', 'pagination-control', array('lang' => $this->params('lang'), 'route' => 'lang/jobboard'));?>
+<?php endif ?>

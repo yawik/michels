@@ -1,0 +1,145 @@
+<?php
+/**
+ * YAWIK
+ *
+ * General layout template file. Defines the general layout.
+ *
+ * @copyright (c) 2013 - 2016 Cross Solution (http://cross-solution.de)
+ * @license   MIT
+ */
+
+/* @var $options \Core\Options\ModuleOptions */
+$options = $this->services('Core/Options');
+$languages = $options->getSupportedLanguages();
+$lang = $this->params('lang');
+
+
+// See: http://yawik.readthedocs.org/en/latest/modules/core/notifications.html
+
+$notifications = $this->partial('core/notifications');
+
+// set default page title
+
+$this->headTitle($this->translate('Michels'))->setSeparator(' - ')->setAutoEscape(false);
+
+// set default keywords
+
+$this->headMeta()->setCharset("utf-8");
+$this->headMeta()->appendName("keywords", "Open Surce Bewerbermanagement System, Bewerberverwaltung");
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+
+$this->configHeadScript()->setAllowArbitraryAttributes(true);
+
+$this->configHeadScript()->prependFile($this->basepath('dist/js/core.js'));
+
+$this->configHeadScript()->appendScript('var lang="' . $this->params('lang') . '";'
+    . 'var basePath="' . $this->basePath() . '";');
+
+$this->headLink()->prependStylesheet($this->basePath('modules/Michels/dist/Michels.css'));
+
+foreach ($languages as $lang) {
+    $this->headLink()->appendAlternate(
+        preg_replace('~^'.$this->basepath('/'.$this->params('lang')).'~',
+            $this->basepath('/'.$lang),$_SERVER['REQUEST_URI']),
+        'hreflang',
+        $this->headTitle()->setTranslator()->renderTitle() ,
+        array('hreflang'=>$lang));
+}
+?>
+<?php echo $this->doctype(); ?>
+<html lang="<?php echo $this->params('lang') ?>">
+<head>
+    <?php echo $this->headTitle() ?>
+    <?php echo $this->headMeta() ?>
+    <?php echo $this->configHeadScript() ?>
+    <?php echo $this->headLink() ?>
+    <?php echo $this->headStyle() ?>
+    <link rel="icon" href="<?=$this->basePath('modules/Michels/img/favicon.png')?>" sizes="32x32" />
+    <link rel="icon" href="<?=$this->basePath('modules/Michels/img/cropped-yawik-small-192x192.jpg')?>" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="<?=$this->basePath('modules/Michels/img/cropped-yawik-small-180x180.jpg')?>" />
+    <meta name="msapplication-TileImage" content="<?=$this->basePath('modules/Michels/img/cropped-yawik-small-270x270.jpg')?>" />
+</head>
+<body>
+<a class="sr-only" href="#content">Skip to main content</a>
+<header role="banner">
+    <div class=" navbar-inverse">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hidden-xs" href="<?php echo $this->basepath('/' . $this->params('lang')) ?>">Michels</a>
+            <a class="navbar-brand visible-xs" href="<?php echo $this->basepath('/' . $this->params('lang')) ?>">A</a>
+        </div>
+        <nav id="main-navigation" class="navbar-collapse collapse navbar-collapse" role="navigation">
+            <?php
+            echo $this->navigation('Core/Navigation')
+                ->setAcl($this->services('acl'))
+                ->setRole($this->auth('role'))
+                ->menu()
+                ->setMaxDepth(0) // only show the top level entries
+                ->setUlClass('nav navbar-nav pull-left')//renderPartial(null, 'main-navigation')
+            ?>
+            <?php echo $this->loginInfo() ?>
+        </nav>
+        <!-- /main-navigation -->
+    </div>
+</header>
+<div class="container col-md-2">
+    <!-- SIDEBAR -->
+    <nav id="sidebar">
+
+
+        <div id="sub-nav">
+            <?php
+            echo $this->navigation()->menu()
+                ->setOnlyActiveBranch(true)
+                ->setMaxDepth(null)
+                ->setMinDepth(1)
+                ->setRenderParents(false)
+                ->setUlClass('nav nav-pills nav-stacked');
+            ?>
+            <?php
+            /**
+             * you can put partials
+             */
+            foreach ($this->layout()->getChildren() as $child):
+                if (0 === strpos($child->captureTo(), "sidebar_")):
+                    echo $this->{$child->captureTo()}?:$this->render($child);
+                endif;
+            endforeach;?>
+        </div>
+    </nav>
+    <!-- /SIDEBAR -->
+</div>
+
+<main id="content" class="col-md-10">
+    <?php echo $notifications?>
+    <?php echo $this->content; ?>
+</main>
+<!-- /container -->
+<footer id="yk-footer">
+ <div class="container">
+    <div class="row">
+       <div class="col-md-4">
+           <?=$this->languageSwitcher()?>
+       </div>
+	        <div class="col-md-4">
+            </div>
+           <div class="col-md-4" align="right">
+                <span class="pull-right"><small>
+                        &copy; <?php echo date("Y")?> <a href="https://www.dc-aviation.com">
+                            Michels</a>.
+                        | <a href="<?php echo  $this->basePath($this->params('lang').'/content/imprint')?>"><?php echo $this->translate('Imprint') ?></a>
+                        | <?php echo $this->moduleVersion('Michels')->full() ?><br/>
+                        Powered by <a href="http://yawik.org">YAWIK</a> <?=$this->moduleVersion('Core') ?>
+                 </small></span>
+           </div>
+    </div>
+  </div>
+</footer>
+<?php echo $this->partial("piwik") ?>
+</body>
+</html>

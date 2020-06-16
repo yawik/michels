@@ -1,0 +1,147 @@
+/**
+ * YAWIK
+ *
+ * @filesource
+ * @copyright (c) 2013 Cross Solution (http://cross-solution.de)
+ * @license   MIT
+ */
+
+@import "skeleton.less";
+
+@primary-color: #008279;
+@panel-default-border: #2e2e2e;
+@font-family: Helvetica,Arial,sans-serif;
+
+body{
+    font-size: 1.5em;
+    line-height: 1.6;
+    font-family: @font-family;
+    font-size: 11pt;
+    font-weight: normal;
+    color:#575756;
+}
+.header img, .visual img{
+  width: 100%;
+  height: auto;
+}
+.container {
+    width: 100%;
+    max-width: 904px;
+    margin: 0 auto;
+    padding: 0px;
+    box-sizing: border-box;
+    border: 1px solid #575756;
+    margin-bottom: 20px;
+  }
+main {
+    padding: 34px 56px;
+}
+h1 {
+  color: #9b0e12 !important;
+  line-height: normal !important;
+  font-size: 16pt !important;
+  font-weight: bold !important;
+}
+ul {
+  margin-left: 25px;
+  list-style: disc;
+}
+ul li {
+  padding: 0;
+}
+.apply {
+    text-align: center;
+}
+h4 {
+  font-size: 13pt !important;
+  color: #575756 !important;
+  font-style: normal !important;
+  font-weight: bold !important;
+}
+
+.header{
+   margin: 0;
+   line-height: 0;
+  }
+.visual{
+  margin: 0;
+  }
+.title{
+  font-size: 16pt;
+  font-style: normal;
+  line-height: normal;
+  font-weight: bold;
+  color: #fff;
+  background-color: @primary-color;
+  margin-bottom: 30px;
+}
+.footer-bar{
+  background-image: url(footer-bar.png);
+}
+.button.button-primary,
+button.button-primary {
+  color: #fff;
+}
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #fff;
+}
+.footer-container{
+  width: 37%;
+  margin: 0 auto;
+}
+
+.apply{
+  margin-top: 5px;
+}
+.button, button {
+  display: inline-block;
+  height: 38px;
+  padding: 0 10px 0 0;
+  text-align: center;
+  font-size: 11pt;
+  font-weight: bold;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: @primary-color;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.row {
+  padding: 10px 0 10px 0;
+}
+.company{
+  padding: 0px 56px;
+}
+address{
+  font-style: normal;
+  float: left;
+  text-align: left;
+}
+.linkedin{
+  float: right;
+}
+@media only screen and (max-width: 600px) {
+  body {
+      margin: 0px;
+      padding: 0px;
+  }
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    margin-bottom: 10px;
+  }
+  main, .company {
+    padding: 0px 10px;
+}
+h4{
+    margin-top: 3.555556%;
+    margin-bottom: 1%;
+}
+}

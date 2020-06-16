@@ -1,0 +1,76 @@
+{
+    "type": "yawik-module",
+    "name": "yawik/michels",
+    "description": "michels modifies the startpage of a yawik installation.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carsten Bleek",
+            "email": "bleek@cross-solution.de"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/cbleek/Michels"
+    },
+    "keywords": [
+        "yawik",
+        "yawik-module"
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "require": {
+        "yawik/core": "^0.34",
+        "yawik/jobs": "^0.34",
+        "yawik/auth": "^0.34",
+        "yawik/applications": "^0.34",
+        "yawik/settings": "^0.34",
+        "yawik/geo": "^1.1",
+        "yawik/cv": "^0.34",
+        "yawik/organizations": "^0.34",
+        "yawik/pdf": "^0.34",
+        "yawik/composer-plugin": "^1.0",
+        "laminas/laminas-dependency-plugin": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "yawik/behat": "^0.33"
+    },
+    "autoload": {
+        "psr-4": {
+            "Michels\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "": "test/"
+        }
+    },
+    "config": {
+        "platform": {
+            "ext-mongo": "1.7"
+        },
+        "process-timeout": 0
+    },
+    "scripts": {
+        "auto-scripts": [
+            "npm install"
+        ],
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "serve": "php -S 0.0.0.0:8000 -t test/sandbox/public",
+        "start-selenium": "./vendor/bin/selenium-server-standalone -p 4444 -Dwebdriver.chrome.driver=./vendor/bin/chromedriver",
+        "test": "phpunit"
+    },
+    "extra": {
+        "zf": {
+            "module": "Aviation"
+        },
+        "branch-alias": {
+            "dev-develop": "0.32-dev"
+        }
+    }
+}
