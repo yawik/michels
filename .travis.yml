@@ -1,7 +1,7 @@
 language: php
 addons:
   ssh_known_hosts:
-  - aviation.yawik.org
+  - michels.yawik.org
 cache:
   directories:
   - "$HOME/.composer/cache"
