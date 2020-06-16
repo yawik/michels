@@ -7,7 +7,7 @@ require 'recipe/zend_framework.php';
 set('application', 'YAWIK');
 
 // Project repository
-set('repository', 'https://github.com/cbleek/Michels.git');
+set('repository', 'https://github.com/yawik/michels.git');
 
 // Shared files/dirs between deploys
 add('shared_files', [
